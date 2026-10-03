@@ -33,16 +33,17 @@ jobs:
           persist-credentials: false
       - name: Run AI review
         uses: megalomania428/github-actions/review-pi_dev@master
-        with:
-          llm_mdl_url: ${{ inputs.llm-api-url || secrets.LLM_API_URL }} # gitleaks:allow
-          llm_mdl_name: "${{ inputs.llm-api-model ||
+        env:
+          LLM_URL: ${{ inputs.llm-api-url || secrets.LLM_API_URL }} # gitleaks:allow
+          LLM_NAME: "${{ inputs.llm-api-model ||
             secrets.LLM_API_MDL2PI }}" # gitleaks:allow
-          llm_mdl_key: "${{ inputs.llm-api-token ||
+          LLM_KEY: "${{ inputs.llm-api-token ||
             !inputs.llm-api-url && secrets.LLM_API_KEY || 'dummy' }}"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          search_mcp_url: ${{ secrets.SEARCH_MCP_URL }}
-          search_mcp_key: ${{ secrets.SEARCH_MCP_KEY }}
-          fetch_mcp_url: ${{ secrets.FETCH_MCP_URL }}
-          fetch_mcp_key: ${{ secrets.FETCH_MCP_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SEARCH_MCP_URL: ${{ secrets.SEARCH_MCP_URL }}
+          SEARCH_MCP_KEY: ${{ secrets.SEARCH_MCP_KEY }}
+          FETCH_MCP_URL: ${{ secrets.FETCH_MCP_URL }}
+          FETCH_MCP_KEY: ${{ secrets.FETCH_MCP_KEY }}
+        with:
           pr_number: ${{ inputs.pr-number }}
           # jscpd:ignore-end
