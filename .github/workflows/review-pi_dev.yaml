@@ -17,13 +17,17 @@ on:
       pr-number:
         description: "pull request number (resolved from branch if empty)"
         type: string
-permissions:
-  contents: read
-  pull-requests: write
-  issues: write
+permissions: {}
 jobs:
-  ai-review:
-    runs-on: ubuntu-latest
+  review-pi_dev:
+    runs-on: ubuntu-24.04
+    name: review pi.dev
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      checks: read
+      statuses: read
     steps:
       - uses: actions/checkout@v7
         with:
@@ -31,7 +35,7 @@ jobs:
           fetch-tags: true
           submodules: recursive
           persist-credentials: false
-      - name: Run AI review
+      - name: Review by pi.dev agent
         uses: megalomania428/github-actions/review-pi_dev@master
         env:
           LLM_URL: ${{ inputs.llm-api-url || secrets.LLM_API_URL }} # gitleaks:allow
